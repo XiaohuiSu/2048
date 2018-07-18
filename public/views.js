@@ -5,8 +5,8 @@ function showNumber(i, j, randNumber) {
     node.css("background-color", getNumberBgColor(randNumber));
     node.css("color", getNumberColor(randNumber));
 
-    node.css("width", "100px");
-    node.css("height", "100px");
+    node.css("width", cellSideLength);
+    node.css("height", cellSideLength);
     node.text(randNumber);
     node.css('animation-name', 'myAnimation');
     node.css('animation-duration', '0.2s');

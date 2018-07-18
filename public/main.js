@@ -9,13 +9,20 @@ window.onload = function() {
 
 }
 function newGame() {
- /*    prepareForMobile(); */
+    prepareForMobile(); 
 
     // 初始化盘格
     Init();
 }
 
-/* function prepareForMobile() {
+function prepareForMobile() {
+
+    if( documentWidth > 600 ) {
+        gridContainerWidth = 500;
+        cellSpace = 20;
+        cellSideLength = 100;
+    }
+
     $('#grid-container').css('width', gridContainerWidth - 2 * cellSpace);
     $('#grid-container').css('height', gridContainerWidth - 2 * cellSpace);
     $('#grid-container').css('padding', cellSpace);
@@ -25,7 +32,7 @@ function newGame() {
     $('.grid-cell').css('height', cellSideLength);
     $('.grid-cell').css('border-radius', 0.02 * cellSideLength);
 
-} */
+} 
 
 document.getElementById("newGame").onclick = function() {
     Init();
@@ -110,7 +117,7 @@ function updateView() {
             node.id = 'number-cell-' + i + '-' + j;
             gridContainer.appendChild(node); 
            /*  $("#grid-container").append('<div class="number-cell" id="number-cell-' + i + '-' + j + '"></div>');  */
-            var p = $("#number-cell-" + i + "-" + j); 
+         /*    var p = $("#number-cell-" + i + "-" + j);  */
             if(!board[i][j]) {
                 node.style.width = '0';
                 node.style.height = '0';
@@ -118,8 +125,8 @@ function updateView() {
                 node.style.left = getLeft(j) + 'px'; 
 
             } else {
-                node.style.width = '100px';
-                node.style.height = '100px';
+                node.style.width = cellSideLength + 'px';
+                node.style.height = cellSideLength + 'px';
                 node.style.top = getTop(i) + 'px';
                 node.style.left = getLeft(j) + 'px';
                 node.style.backgroundColor = getNumberBgColor(board[i][j]);
@@ -128,6 +135,10 @@ function updateView() {
             }
         }
     }
+
+    $('.number-cell').css('line-height', cellSideLength + 'px');
+    $('.number-cell').css('font-size', 0.6 * cellSideLength + 'px');
+
 
     var Score = $('#score');
     Score.css('animation-name', 'myAnimation');
