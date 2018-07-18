@@ -3,6 +3,10 @@ var score = 0;
 var over = false;
 var gridContainer = document.getElementById('grid-container');
 
+var startX = 0,
+    startY = 0,
+    endX = 0,
+    endY = 0;
 
 window.onload = function() {
     newGame(); 
@@ -13,6 +17,7 @@ function newGame() {
 
     // 初始化盘格
     Init();
+
 }
 
 function prepareForMobile() {
@@ -35,6 +40,7 @@ function prepareForMobile() {
 } 
 
 document.getElementById("newGame").onclick = function() {
+
     Init();
     getOneNumber(); 
     getOneNumber();
@@ -45,32 +51,39 @@ $(document).keydown(function(event) {
         return;
     }
     switch(event.keyCode) {
-        case 65: 
+        case 37: 
             if(moveLeft()) {
+                event.preventDefault();
                 updateView();
 
                 getOneNumber();
                 isGameOver();
             }
             break;
-        case 87:
+        case 38:
             if(moveTop()) {
+                event.preventDefault();
+
                 updateView();
 
                 getOneNumber();
                 isGameOver();
             }
             break;
-        case 68:
+        case 39:
             if(moveRight()) {
+                event.preventDefault();
+
                 updateView();
 
                 getOneNumber();
                 isGameOver();
             }
             break;
-        case 83:
+        case 40:
             if(moveDown()) {
+                event.preventDefault();
+
                 updateView();
 
                 getOneNumber();
@@ -81,6 +94,74 @@ $(document).keydown(function(event) {
             break;
     }
 }) 
+
+document.addEventListener('touchstart', function(event) {
+    startX = event.touches[0].pageX;
+    startY = event.touches[0].pageY;
+});
+
+document.addEventListener('touchmove', function(event) {
+    event.preventDefault();
+});
+
+document.addEventListener('touchend', function(event) {
+
+    endX = event.changedTouches[0].pageX;
+    endY = event.changedTouches[0].pageY;
+
+    var disX = endX - startX;
+    var disY = endY - startY;
+    if(Math.abs(disX) < 0.2 * documentWidth && Math.abs(disY) < 0.3 * documentWidth) {
+        return;
+    }
+    if(Math.abs(disX) > Math.abs(disY)) {
+        // 横向滑动
+        if(disX > 0) {
+            // 向右滑动
+            if(moveRight()) {
+                 event.preventDefault(); 
+                 updateView();
+ 
+                 getOneNumber();
+                 isGameOver();
+             }
+        } else {
+            // 向左滑动
+            if(moveLeft()) {
+                event.preventDefault(); 
+                updateView();
+
+                getOneNumber();
+                isGameOver();
+            }
+        }
+
+    } else {
+        // 竖向滑动
+        if(disY > 0) {
+            // 向下滑动
+            if(moveDown()) {
+                 event.preventDefault(); 
+                 updateView();
+ 
+                 getOneNumber();
+                 isGameOver();
+             }
+        } else {
+            // 向上滑动
+            if(moveTop()) {
+                event.preventDefault(); 
+                 updateView();
+ 
+                 getOneNumber();
+                 isGameOver();
+             }
+        }
+
+    }
+
+});
+
  
 function Init() {
     var gridCell;
@@ -105,11 +186,20 @@ function Init() {
 } 
 // 每一次操作都要执行的函数，用来更新视图
 function updateView() {
+    
     var node;
     var arr = document.querySelectorAll(".number-cell");
-    arr.forEach(function(value) {
-        value.parentNode.removeChild(value);
-    });
+    
+   /*  $('.number-cell').remove(); */
+  /*    arr.forEach(function(value) {
+        gridContainer.removeChild(value);
+    });  */
+
+    // 有些手机浏览器不支持forEach
+    for(var k = 0; k < arr.length; ++k) {
+        arr[k].parentNode.removeChild(arr[k]);
+    }
+ 
     for(var i = 0; i < 4; ++i) {
         for(var j = 0; j < 4; ++j) {
             node = document.createElement('div');
@@ -137,14 +227,10 @@ function updateView() {
     }
 
     $('.number-cell').css('line-height', cellSideLength + 'px');
-    $('.number-cell').css('font-size', 0.6 * cellSideLength + 'px');
+    $('.number-cell').css('font-size', 0.6 * cellSideLength + 'px'); 
 
-
-    var Score = $('#score');
-    Score.css('animation-name', 'myAnimation');
-    Score.css('animation-duration', '0.2s');
-    Score.css('animation-timing-function', 'ease-in');
     document.getElementById('score').innerText = score;
+
 }
 // 随机一个空白位置生成一个2或者4
 function getOneNumber() {
@@ -178,7 +264,7 @@ function getOneNumber() {
  
      board[randX][randY] = randNumber;
      showNumber(randX, randY, randNumber);  
-     return true;
+     return ;
 }
 // 以下四个方法分别是上、下、左、右移动
 function moveLeft() {
