@@ -4,7 +4,7 @@
 * $ npm install
 * $ node server.js
 * localhost:3000
-> 代码中有详细注释
+> 支持响应式和移动端触控
 
 **运行说明:  上 下 左 右**
 
