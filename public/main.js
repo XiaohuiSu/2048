@@ -103,7 +103,8 @@ document.addEventListener('touchstart', function(event) {
 
 document.addEventListener('touchmove', function(event) {
     event.preventDefault();
-});
+    window.event.returnValue = false;
+}, false);
 
 document.addEventListener('touchend', function(event) {
    /*  event.preventDefault(); */
