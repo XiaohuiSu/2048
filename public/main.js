@@ -2,7 +2,6 @@ var board = new Array();
 var score = 0;
 var over = false;
 
-var begin = false;
 var gridContainer = document.getElementById('grid-container');
 
 var startX = 0,
@@ -42,7 +41,6 @@ function prepareForMobile() {
 } 
 
 document.getElementById("newGame").onclick = function() {
-    begin = true;
     Init();
     getOneNumber(); 
     getOneNumber();
@@ -98,8 +96,6 @@ $(document).keydown(function(event) {
 }) 
 
 document.addEventListener('touchstart', function(event) {
-    if(begin)
-    event.preventDefault(); 
 
     startX = event.touches[0].pageX;
     startY = event.touches[0].pageY;
