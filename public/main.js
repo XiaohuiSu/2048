@@ -101,13 +101,11 @@ document.addEventListener('touchstart', function(event) {
     startY = event.touches[0].pageY;
 });
 
-document.addEventListener('touchmove', function(event) {
+window.addEventListener('touchmove', function(event) {
     event.preventDefault();
-    window.event.returnValue = false;
-}, false);
+});
 
 document.addEventListener('touchend', function(event) {
-   /*  event.preventDefault(); */
 
     endX = event.changedTouches[0].pageX;
     endY = event.changedTouches[0].pageY;
