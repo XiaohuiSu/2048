@@ -96,15 +96,21 @@ $(document).keydown(function(event) {
 }) 
 
 document.querySelector('body').addEventListener('touchstart', function(event) {
-    event.preventDefault();
     startX = event.touches[0].pageX;
     startY = event.touches[0].pageY;
 });
 
 
-window.addEventListener('touchmove', function(event) {
+
+/* window.addEventListener('touchmove', function(event) {
     event.preventDefault();
-});
+}); */
+
+$(document).ready(function() {
+    document.addEventListener('touchmove', function(event){
+        event.preventDefault();
+    }, false);
+})
 
 document.addEventListener('touchend', function(event) {
 
